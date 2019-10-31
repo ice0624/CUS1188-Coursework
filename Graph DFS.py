@@ -4,9 +4,9 @@ visited = {"A" : False, "B" : False, "C" : False, "D" : False, "E" : False, "F" 
 def dfs(g, v):
     visited[v] = True
     print(v)
-    for w in graph[v]:
+    for w in g[v]:
         if visited[w] == False:
-            dfs(graph, w)
+            dfs(g, w)
 
 dfs(graph, "A")
 end_values = visited.values()

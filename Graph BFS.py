@@ -5,7 +5,6 @@ visited = {"A" : False, "B" : False, "C" : False, "D" : False, "E" : False, "F" 
 
 def bfs(g, v, visited):
     q = queue.Queue(0)
-    visited[v] = True
     print(v)
     q.put(v)
 

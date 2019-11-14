@@ -1,3 +1,5 @@
+ 
+import math
 
 # graph class for graph object
 class Graph:
@@ -24,19 +26,9 @@ class Edge:
         print(g.vertices[self.a] + " to " + g.vertices[self.b] + " ~ " + str(self.weight))
 
 
-def min_vertex(g, s, c):
-    m = 100
-    result = 0
-    for n in range(0, len(g.vertices)):
-        if s[n] == 0 and c[n] <= m:
-            m = c[n]
-            result = n
-    return n
-
-
 def prim(g):
     p = [-1, -1, -1, -1, -1, -1]
-    c = [100, 100, 100, 100, 100, 100]
+    c = [math.inf, math.inf, math.inf, math.inf, math.inf, math.inf]
     s = [0, 0, 0, 0, 0, 0]
 
     # starts with vertex at index 0
@@ -45,19 +37,23 @@ def prim(g):
     tree = []
 
     for i in range(1, len(g.vertices)):
-        adjacent = []
-        for m in range(0, len(g.edges)):
-            if g.edges[m].a == v or g.edges[m].b == v:
-                adjacent.append(g.edges[m])
-        for j in range(0, len(adjacent)):
-            w = adjacent[j].b
-            if s[w] == 0 and adjacent[j].weight <= c[w]:
-                p[w] = v
-                c[w] = adjacent[j].weight
-                to_add = adjacent[j]
-        v = min_vertex(g, s, c)
-        s[v] = 1
+        for j in range(0, len(g.edges)):
+            if g.edges[j].a == v or g.edges[j].b == v:
+                if g.edges[j].a == v:
+                    w = g.edges[j].b
+                else:
+                    w = g.edges[j].a
+
+                if s[w] == 0 and g.edges[j].weight <= c[w]:
+                    #edit so that the minimum weighted edge is actually picked
+                    p[w] = v
+                    c[w] = g.edges[j].weight
+                    to_add = g.edges[j]
+        s[w] = 1
+        #must edit how new vertex is selected
+        v = w
         tree.append(to_add)
+        
     for k in range(0, len(tree)):
         tree[k].print_edge(g)
     for m in range(0, len(s)):

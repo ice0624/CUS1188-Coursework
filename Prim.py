@@ -1,4 +1,4 @@
- 
+
 import math
 
 # graph class for graph object
@@ -27,7 +27,6 @@ class Edge:
 
 
 def prim(g):
-    p = [-1, -1, -1, -1, -1, -1]
     c = [math.inf, math.inf, math.inf, math.inf, math.inf, math.inf]
     s = [0, 0, 0, 0, 0, 0]
 
@@ -36,7 +35,8 @@ def prim(g):
     s[v] = 1
     tree = []
 
-    for i in range(1, len(g.vertices)):
+    while len(tree) < len(g.vertices)-1:
+        min_weight = math.inf
         for j in range(0, len(g.edges)):
             if g.edges[j].a == v or g.edges[j].b == v:
                 if g.edges[j].a == v:
@@ -44,20 +44,20 @@ def prim(g):
                 else:
                     w = g.edges[j].a
 
-                if s[w] == 0 and g.edges[j].weight <= c[w]:
-                    #edit so that the minimum weighted edge is actually picked
-                    p[w] = v
-                    c[w] = g.edges[j].weight
+                if g.edges[j] not in tree and g.edges[j].weight <= min_weight:
+                    min_weight = g.edges[j].weight
                     to_add = g.edges[j]
-        s[w] = 1
-        #must edit how new vertex is selected
-        v = w
+
+        if 0 in s:
+            v = s.index(0)
+        else:
+            v = w
+        s[v] = 1
         tree.append(to_add)
-        
+
+    print("Minimum Spanning Tree: ")
     for k in range(0, len(tree)):
         tree[k].print_edge(g)
-    for m in range(0, len(s)):
-        print(s[m])
 
 
 graph = Graph()
